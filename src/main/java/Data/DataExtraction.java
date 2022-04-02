@@ -61,6 +61,55 @@ public class DataExtraction {
 
     }
 
+    public static Object getOldestFieldValue (String methodName, JSONArray arr, String fieldName) {
+
+        if (arr == null) {
+            logger.error("getOldestFieldValue, trades == null");
+            return null;
+        }
+
+        if (fieldName == null) {
+            logger.error("getOldestFieldValue, fieldName == null");
+            return null;
+        }
+
+        //TODO create a method to replace it ?
+        if (methodName.equals("getTrade")) {
+
+            if (!fieldName.equals("d") &&
+                    !fieldName.equals("s") &&
+                    !fieldName.equals("p") &&
+                    !fieldName.equals("q") &&
+                    !fieldName.equals("t") &&
+                    !fieldName.equals("i")) {
+                logger.error("getOldestFieldValue,, fieldName is invalid");
+                return null;
+            }
+        } else if (methodName.equals("getCandlestick")) {
+
+            if (!fieldName.equals("t") &&
+                    !fieldName.equals("o") &&
+                    !fieldName.equals("h") &&
+                    !fieldName.equals("l") &&
+                    !fieldName.equals("c") &&
+                    !fieldName.equals("v")) {
+                logger.error("getOldestFieldValue, fieldName is invalid");
+                return null;
+            }
+        } else {
+            logger.error("getOldestFieldValue, methodName is invalid");
+            return null;
+        }
+
+        int latestIndex = arr.size()-1;
+        Object oldestO = arr.get(latestIndex);
+        JSONObject oldestJ = (JSONObject) oldestO;
+        Object o = (Object) oldestJ.get(fieldName);
+
+        logger.info("getOldestFieldValue from " + methodName +", "+ fieldName + ", return: " + "(DataType = Object): " + o);
+        return o;
+    }
+
     //make sure JSONArray trades is from getTrade
     public static double getOpenPriceFromTrades (JSONArray trades, long intTime) {
 
@@ -86,6 +135,49 @@ public class DataExtraction {
 
         logger.info("send request early");
         return Double.NaN;
+    }
+
+    public static double getClosePriceFromTrades (JSONArray trades, long timeDiffLast, long timeDiffOld,
+                                                  long duration, long endTime, double currentClosePrice) {
+
+        if (trades == null) {
+            logger.error("trades == null");
+            return Double.NaN;
+        }
+
+        if (timeDiffLast < 0) {
+            logger.info("send request early");
+            return Double.NaN;
+        }
+
+        if (duration == -1L) {
+            logger.error("ONE_MONTH is select");
+            return Double.NaN;
+        }
+
+        if (timeDiffLast < duration) {
+            return (double) DataExtraction.getLatestFieldValue("trade", trades, "p");
+        }
+
+//        if (timeDiffLast == duration), do it run()
+
+        // part of the time interval of JSONArray trades is overlapped with intTime-EndTime interval, part of it is not
+        if (timeDiffLast > duration && timeDiffOld < duration) { //get max. time
+            for (Object o : trades) {
+                JSONObject j = (JSONObject) o;
+                long t = (long) j.get("t");
+                if (t <= endTime) {
+                    return (double) j.get("p");
+                }else { //t > endTime
+                    logger.error("getClosePriceFromTrades, case: t > endTime");
+                    return Double.NaN;
+                }
+            }
+        }
+
+        //        if (timeDiffLast == duration), do it run()
+        logger.info("getClosePriceFromTrades, case: timeDiffLast == duration");
+        return currentClosePrice;
     }
 
 }

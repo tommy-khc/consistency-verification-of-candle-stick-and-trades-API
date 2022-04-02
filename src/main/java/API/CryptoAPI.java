@@ -6,6 +6,7 @@ import Entity.TimeFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
@@ -19,6 +20,8 @@ public class CryptoAPI extends TimerTask {
 
     private long intTime;
 
+    private long endTime;
+
     private TimeFrame tF;
 
     private CandleStick cS;
@@ -27,6 +30,7 @@ public class CryptoAPI extends TimerTask {
         this.instrumentName = instrumentName;
         this.intTime = intTime;
         this.tF = tF;
+        this.endTime = intTime + tF.getDuration();
     }
 
     public static JSONArray getTrade (String instrumentName) throws IOException, InterruptedException {
@@ -76,15 +80,23 @@ public class CryptoAPI extends TimerTask {
 
     @Override
     public void run() {
+        //TODO Too Complex
         try {
             //Assume the latency is zero
             JSONArray arr = getTrade(instrumentName);
 
             //Time
             long latestTime = (long) DataExtraction.getLatestFieldValue("trade", arr, "t");
-            long timeDiff = latestTime - intTime;
+            long oldestTime = (long) DataExtraction.getOldestFieldValue("trade", arr, "t");
+            long timeDiffLast = latestTime - intTime;
+            long timeDiffOld = oldestTime - intTime;
+            long duration = tF.getDuration();
 
-            if (timeDiff > tF.getDuration()) {
+
+            //fix bugs -- send earlier, then tF.getDuration() + e.g 500
+            //timeDiffLast > tF.getDuration() && timeDiffOld > tF.getDuration()
+            if (timeDiffOld > duration) {
+                cS.setT(latestTime);
                 logger.info("run(), " + cS.toString());
                 cancel();
             }
@@ -96,16 +108,32 @@ public class CryptoAPI extends TimerTask {
                 logger.info("open price is updated to " + cS.getO());
             }
 
-            //determine field c -- always get the latest price
-            cS.setC( (double) DataExtraction.getLatestFieldValue("trade", arr, "p") );
+            //determine field c
+            cS.setC( DataExtraction.getClosePriceFromTrades(arr, timeDiffLast, timeDiffOld, duration, endTime, cS.getC()));
             logger.info("close price is updated to " + cS.getC());
 
 
-            if (timeDiff == 60000) {
+            if (timeDiffLast == 60000) {
+                cS.setT(latestTime);
+                cS.setC( (double) DataExtraction.getLatestFieldValue("trade", arr, "p") );
+                logger.info("close price is updated to " + cS.getC());
                 logger.info("run(), " + cS.toString());
                 cancel();
             }
 
+            if (timeDiffLast > duration && timeDiffOld < duration) {
+                //Aim: cS.setT(latestTime which is closest to )
+                for (Object o : arr) {
+                    JSONObject j = (JSONObject) o;
+                    long t = (long) j.get("t");
+                    if (t <= endTime) {
+                        cS.setT(t);
+                    } else { //t > endTime
+                        logger.error("run(), case: t > endTime");
+                    }
+                }
+                cancel();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
