@@ -211,7 +211,7 @@ public class DataExtraction {
         // intTime is from "2022-04-2 00:54:00.0" , it will be checked in other code
         //endTime = intTime + duration, it should be ok
 
-        //Initial value of h is -1
+        //Initial value of h is Double.MIN_VALUE
         if (h == Double.NaN) {
             logger.error("h == Double.NaN"); // properly because of arr == null
             return h;
@@ -226,6 +226,32 @@ public class DataExtraction {
         }
 
         return h;
+    }
+    
+    public static double getLowFromTrades (JSONArray arr, long intTime, long endTime, double l) {
+        if (arr == null) {
+            logger.error("arr == null");
+            return Double.NaN;
+        }
+
+        // intTime is from "2022-04-2 00:54:00.0" , it will be checked in other code
+        //endTime = intTime + duration, it should be ok
+
+        //Initial value of l is Double.MAX_VALUE
+        if (l == Double.NaN) {
+            logger.error("l == Double.NaN"); // properly because of arr == null
+            return l;
+        }
+
+        for (Object o : arr) {
+            JSONObject j = (JSONObject) o;
+            long t = (long) j.get("t");
+            if (intTime <= t && t <= endTime) {
+                l = Double.min(l, (double) j.get("p"));
+            }
+        }
+
+        return l;
     }
 
 }

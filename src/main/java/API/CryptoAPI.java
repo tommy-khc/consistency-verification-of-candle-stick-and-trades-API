@@ -101,6 +101,9 @@ public class CryptoAPI extends TimerTask {
             cS.setH( DataExtraction.getHighFromTrades(arr, intTime, endTime, cS.getH()));
             logger.info("high price is updated to " + cS.getH());
 
+            cS.setL( DataExtraction.getLowFromTrades(arr, intTime, endTime, cS.getL()));
+            logger.info("low price is updated to " + cS.getL());
+
             //TODO fix bugs (due to delay of receiving request in sever ) -- send earlier, then tF.getDuration() + e.g 500
             //timeDiffLast > tF.getDuration() && timeDiffOld > tF.getDuration()
             if (timeDiffOld > duration) {

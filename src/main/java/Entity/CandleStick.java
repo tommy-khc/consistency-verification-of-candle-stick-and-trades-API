@@ -7,9 +7,9 @@ public class CandleStick {
 
     private double c;
 
-    private double h = -1;
+    private double h = Double.MIN_VALUE;
 
-    private double l;
+    private double l = Double.MAX_VALUE;
 
     private double v;
 
