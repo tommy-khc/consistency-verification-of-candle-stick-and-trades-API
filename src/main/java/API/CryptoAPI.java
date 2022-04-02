@@ -80,7 +80,8 @@ public class CryptoAPI extends TimerTask {
 
     @Override
     public void run() {
-        //TODO Too Complex
+        //TODO dealing the latest element only in arr is much easier but it will be more bugs
+        //TODO Too Complex? But trading record speed is faster than 0.01 which is the speed of sending response
         try {
             //Assume the latency is zero
             JSONArray arr = getTrade(instrumentName);
@@ -93,7 +94,7 @@ public class CryptoAPI extends TimerTask {
             long duration = tF.getDuration();
 
 
-            //fix bugs -- send earlier, then tF.getDuration() + e.g 500
+            //TODO fix bugs (due to delay of receiving request in sever ) -- send earlier, then tF.getDuration() + e.g 500
             //timeDiffLast > tF.getDuration() && timeDiffOld > tF.getDuration()
             if (timeDiffOld > duration) {
                 cS.setT(latestTime);
@@ -103,6 +104,7 @@ public class CryptoAPI extends TimerTask {
 
 
             //Diff <= 6000
+            //determine field o
             if (Double.isNaN(cS.getO())) {
                 cS.setO(DataExtraction.getOpenPriceFromTrades(arr, intTime));
                 logger.info("open price is updated to " + cS.getO());
@@ -123,15 +125,7 @@ public class CryptoAPI extends TimerTask {
 
             if (timeDiffLast > duration && timeDiffOld < duration) {
                 //Aim: cS.setT(latestTime which is closest to )
-                for (Object o : arr) {
-                    JSONObject j = (JSONObject) o;
-                    long t = (long) j.get("t");
-                    if (t <= endTime) {
-                        cS.setT(t);
-                    } else { //t > endTime
-                        logger.error("run(), case: t > endTime");
-                    }
-                }
+                cS.setT( (long) DataExtraction.getCloestToEndTimeFieldFromTrade(arr, endTime, "t"));
                 cancel();
             }
 

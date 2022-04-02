@@ -163,21 +163,45 @@ public class DataExtraction {
 
         // part of the time interval of JSONArray trades is overlapped with intTime-EndTime interval, part of it is not
         if (timeDiffLast > duration && timeDiffOld < duration) { //get max. time
-            for (Object o : trades) {
-                JSONObject j = (JSONObject) o;
-                long t = (long) j.get("t");
-                if (t <= endTime) {
-                    return (double) j.get("p");
-                }else { //t > endTime
-                    logger.error("getClosePriceFromTrades, case: t > endTime");
-                    return Double.NaN;
-                }
-            }
+            return (double) DataExtraction.getCloestToEndTimeFieldFromTrade(trades, endTime, "p");
         }
 
         //        if (timeDiffLast == duration), do it run()
         logger.info("getClosePriceFromTrades, case: timeDiffLast == duration");
         return currentClosePrice;
+    }
+
+    //use it when timeDiffLast > duration && timeDiffOld < duration
+    public static Object getCloestToEndTimeFieldFromTrade (JSONArray trades, long endTime, String fieldName) {
+
+        if (trades == null) {
+            logger.error("trades == null");
+            return null;
+        }
+
+        if (endTime < 0) {
+            logger.error("endTime < 0");
+            return null;
+        }
+
+        if (fieldName == null) {
+            logger.error("fieldName == null");
+            return null;
+        }
+
+        for (Object o : trades) {
+            JSONObject j = (JSONObject) o;
+            long t = (long) j.get("t");
+            if (t <= endTime) {
+                return j.get(fieldName);
+            }else { //t > endTime
+                logger.error("getCloestToEndTimeFieldFromTrade, case: t > endTime");
+                return null;
+            }
+        }
+
+        logger.error("getCloestToEndTimeFieldFromTrade, used wrongly");
+        return null;
     }
 
 }
