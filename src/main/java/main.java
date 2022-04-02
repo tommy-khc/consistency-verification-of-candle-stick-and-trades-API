@@ -9,8 +9,9 @@ public class main {
 
     public static void main(String[] args) throws ParseException {
         String i = "BTC_USDT";
-        String dateStr = "2022-04-2 10:44:00.0";
+        String dateStr = "2022-04-2 11:54:00.0";
+        TimeFrame tF = TimeFrame.ONE_MINUTE;
         Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(dateStr);
-        Polling.callRepeatedly(i, date, TimeFrame.ONE_MINUTE);
+        Polling.getTrade(i, date, tF);
     }
 }

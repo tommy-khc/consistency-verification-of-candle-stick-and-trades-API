@@ -16,21 +16,25 @@ public class CryptoAPI extends TimerTask {
 
     private final static Logger logger = LogManager.getLogger(CryptoAPI.class);
 
-    private String instrumentName;
+    private String methodName;
+    
+    private final String instrumentName;
 
-    private long intTime;
+    private final long intTime;
 
-    private long endTime;
+    private final long endTime;
 
-    private TimeFrame tF;
+    private final TimeFrame tF;
 
-    private CandleStick cS = new CandleStick();
+    private CandleStick cS;
 
-    public CryptoAPI(String instrumentName, long intTime, TimeFrame tF) {
+    public CryptoAPI(String instrumentName, long intTime, TimeFrame tF, String methodName) {
         this.instrumentName = instrumentName;
         this.intTime = intTime;
         this.tF = tF;
         this.endTime = intTime + tF.getDuration();
+        this.methodName = methodName;
+        this.cS = new CandleStick(methodName);
     }
 
     public static JSONArray getTrade (String instrumentName) throws IOException, InterruptedException {
@@ -94,11 +98,14 @@ public class CryptoAPI extends TimerTask {
             long duration = tF.getDuration();
 
 
+            cS.setH( DataExtraction.getHighFromTrades(arr, intTime, endTime, cS.getH()));
+            logger.info("high price is updated to " + cS.getH());
+
             //TODO fix bugs (due to delay of receiving request in sever ) -- send earlier, then tF.getDuration() + e.g 500
             //timeDiffLast > tF.getDuration() && timeDiffOld > tF.getDuration()
             if (timeDiffOld > duration) {
                 cS.setT(latestTime);
-                logger.info("run(), " + cS.toString());
+                logger.info("run(), " + cS.getTradeToString());
                 cancel();
             }
 
@@ -116,22 +123,18 @@ public class CryptoAPI extends TimerTask {
                 cS.setC( DataExtraction.getClosePriceFromTrades(arr, timeDiffLast, timeDiffOld, duration, endTime, cS.getC()));
                 logger.info("close price is updated to " + cS.getC());
 
-                cS.setH( DataExtraction.getHighFromTrades(arr, intTime, endTime, cS.getH()));
-                logger.info("high price is updated to " + cS.getH());
-
-
                 if (timeDiffLast == tF.getDuration()) {
                     cS.setT(latestTime);
                     cS.setC( (double) DataExtraction.getLatestFieldValue("getTrade", arr, "p") );
                     logger.info("close price is updated to " + cS.getC());
-                    logger.info("run(), " + cS.toString());
+                    logger.info("run(), " + cS.getTradeToString());
                     cancel();
                 }
 
                 if (timeDiffLast > duration && timeDiffOld < duration) {
                     //Aim: cS.setT(latestTime which is closest to )
                     cS.setT( (long) DataExtraction.getCloestToEndTimeFieldFromTrade(arr, endTime, "t"));
-                    logger.info("run(), " + cS.toString());
+                    logger.info("run(), " + cS.getTradeToString());
                     cancel();
                 }
             }

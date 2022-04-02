@@ -220,7 +220,7 @@ public class DataExtraction {
         for (Object o : arr) {
             JSONObject j = (JSONObject) o;
             long t = (long) j.get("t");
-            if (intTime >= t && t <= endTime) {
+            if (intTime <= t && t <= endTime) {
                 h = Double.max(h, (double) j.get("p"));
             }
         }

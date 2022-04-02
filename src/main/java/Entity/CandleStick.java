@@ -15,6 +15,8 @@ public class CandleStick {
 
     private long t;
 
+    private String name;
+
     public CandleStick(double o, double c, double h, double l, double v, long t) {
         this.o = o;
         this.c = c;
@@ -25,6 +27,10 @@ public class CandleStick {
     }
 
     public CandleStick() {
+    }
+
+    public CandleStick(String name) {
+        this.name = name;
     }
 
     public double getO() {
@@ -75,6 +81,14 @@ public class CandleStick {
         this.t = t;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "CandleStick{" +
@@ -84,6 +98,19 @@ public class CandleStick {
                 ", l=" + l +
                 ", v=" + v +
                 ", t=" + t +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    public String getTradeToString() {
+        return "CandleStick{" +
+                "o=" + o +
+                ", c=" + c +
+                ", h=" + h +
+                ", l=" + l +
+                ", v=" + v +
+                ", lastTradeTime - t=" + t +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -12,7 +12,7 @@ public class Polling {
 
     private final static Logger logger = LogManager.getLogger(Polling.class);
 
-    public static void callRepeatedly (String instrument, Date intTime, TimeFrame tF) {
+    public static void getTrade(String instrument, Date intTime, TimeFrame tF) {
 
         if (instrument == null) {
             logger.error("instrument == null");
@@ -27,7 +27,7 @@ public class Polling {
         }
 
         Timer t = new Timer();
-        CryptoAPI trade = new CryptoAPI(instrument, intTime.getTime(), tF);
+        CryptoAPI trade = new CryptoAPI(instrument, intTime.getTime(), tF, "getTrade");
         t.scheduleAtFixedRate(trade, intTime, 1L);
     }
 }
