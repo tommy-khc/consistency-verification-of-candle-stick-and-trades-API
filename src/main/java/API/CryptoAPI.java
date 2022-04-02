@@ -1,19 +1,16 @@
 package API;
 
+import Data.DataExtraction;
 import Entity.TimeFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.TimerTask;
 
-public class CryptoAPI {
+public class CryptoAPI extends TimerTask {
 
     private final static Logger logger = LogManager.getLogger(CryptoAPI.class);
 
@@ -98,4 +95,41 @@ public class CryptoAPI {
 
     }
 
+    @Override
+    public void run() {
+//        try {
+//            //Assume the latency is zero
+//            JSONArray arr = getTrade(instrumentName);
+//
+//            //Time
+//            long latestTime = (long) DataExtraction.getLatestFieldValue(arr, "t", "trade");
+//            long timeDiff = latestTime - intTime;
+//
+//            if (timeDiff > 6000) {
+//                cancel();
+//            }
+//
+//
+//            //Diff <= 6000
+//            if (Double.isNaN(o)) {
+//                o = DataExtraction.getOpenPriceFromTrades(arr, intTime);
+//                logger.info("open price is updated to " + o);
+//            }
+//
+//            //determine field c -- always get the latest price
+//            c = (double) DataExtraction.getValuesFromTrades(arr, "p");
+//            logger.info("close price is updated to " + c);
+//
+//
+//            if (timeDiff == 60000) {
+//                cancel();
+//            }
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+    }
 }
