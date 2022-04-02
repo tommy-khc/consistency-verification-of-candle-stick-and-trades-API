@@ -60,4 +60,32 @@ public class DataExtraction {
         return o;
 
     }
+
+    //make sure JSONArray trades is from getTrade
+    public static double getOpenPriceFromTrades (JSONArray trades, long intTime) {
+
+        if (trades == null) {
+            logger.error("trades == null");
+            return Double.NaN;
+        }
+
+        if (intTime == 0L) {
+            logger.error("intTime == 0");
+            return Double.NaN;
+        }
+
+        for (int i = trades.size() - 1; i >= 0; i--) {
+            JSONObject j = (JSONObject) trades.get(i);
+            long t = (long) j.get("t");
+            if (t >= intTime) {
+                double o = (double) j.get("p");
+                logger.info("getOpenPriceFromTrades, return: " + o);
+                return o;
+            }
+        }
+
+        logger.info("send request early");
+        return Double.NaN;
+    }
+
 }

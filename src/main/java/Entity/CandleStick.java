@@ -3,7 +3,7 @@ package Entity;
 //public/get-candleStick response
 public class CandleStick {
 
-    private double o;
+    private double o = Double.NaN;
 
     private double c;
 
