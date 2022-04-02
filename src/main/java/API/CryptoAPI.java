@@ -4,8 +4,13 @@ import Entity.TimeFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class CryptoAPI {
@@ -66,4 +71,31 @@ public class CryptoAPI {
         return POSTAPI.getData(response);
 
     }
+
+    public static JSONArray getCandlestick (String instrumentName, TimeFrame tF) throws IOException, InterruptedException {
+
+        if (instrumentName == null) {
+            logger.error("No instrument name");
+            return null;
+        }
+
+        if (tF == null) {
+            logger.error("tF == null");
+            return null;
+        }
+
+//        https://{URL}/v2/public/get-candlestick?instrument_name=BTC_USDT&timeframe=5m
+//        String postEndpoint = "https://api.crypto.com/v2/public/get-candlestick?instrument_name=" + instrumentName + "&timeframe=" + tF.getValues() + "&depth=" + 50;
+        String postEndpoint = "https://api.crypto.com/v2/public/get-candlestick?instrument_name=" + instrumentName + "&timeframe=" + tF.getShortName();
+
+        HttpResponse<String> response = POSTAPI.getResponse(postEndpoint);
+
+        if (!POSTAPI.verifyHTTPStaus(response)) {
+            return null;
+        }
+
+        return POSTAPI.getData(response);
+
+    }
+
 }

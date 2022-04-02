@@ -54,10 +54,8 @@ public class POSTAPI {
         catch (NullPointerException e) {
             logger.error("getData, " + "NullPointerException, " + "return: " + null);
             return null;
-        } catch (ClassCastException e) {
-            logger.error("getData, " + "ClassCastException, " + "return: " + null);
-            return null;
         }
+
     }
 
     public static Boolean verifyHTTPStaus (HttpResponse<String> response) {
