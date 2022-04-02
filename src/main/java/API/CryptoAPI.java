@@ -116,6 +116,8 @@ public class CryptoAPI extends TimerTask {
                 cS.setC( DataExtraction.getClosePriceFromTrades(arr, timeDiffLast, timeDiffOld, duration, endTime, cS.getC()));
                 logger.info("close price is updated to " + cS.getC());
 
+                cS.setH( DataExtraction.getHighFromTrades(arr, intTime, endTime, cS.getH()));
+
 
                 if (timeDiffLast == tF.getDuration()) {
                     cS.setT(latestTime);

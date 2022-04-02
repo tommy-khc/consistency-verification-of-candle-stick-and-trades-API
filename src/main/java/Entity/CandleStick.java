@@ -7,7 +7,7 @@ public class CandleStick {
 
     private double c;
 
-    private double h;
+    private double h = -1;
 
     private double l;
 

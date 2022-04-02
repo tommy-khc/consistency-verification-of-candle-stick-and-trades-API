@@ -201,4 +201,31 @@ public class DataExtraction {
         return null;
     }
 
+    public static double getHighFromTrades (JSONArray arr, long intTime, long endTime, double h) {
+
+        if (arr == null) {
+            logger.error("arr == null");
+            return Double.NaN;
+        }
+
+        // intTime is from "2022-04-2 00:54:00.0" , it will be checked in other code
+        //endTime = intTime + duration, it should be ok
+
+        //Initial value of h is -1
+        if (h == Double.NaN) {
+            logger.error("h == Double.NaN"); // properly because of arr == null
+            return h;
+        }
+
+        for (Object o : arr) {
+            JSONObject j = (JSONObject) o;
+            long t = (long) j.get("t");
+            if (intTime >= t && t <= endTime) {
+                h = Double.max(h, (double) j.get("p"));
+            }
+        }
+
+        return h;
+    }
+
 }
