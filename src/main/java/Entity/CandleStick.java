@@ -1,7 +1,14 @@
 package Entity;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 //public/get-candleStick response
 public class CandleStick {
+
+    private final static Logger logger = LogManager.getLogger(CandleStick.class);
 
     private double o = Double.NaN;
 
@@ -26,7 +33,14 @@ public class CandleStick {
         this.t = t;
     }
 
-    public CandleStick() {
+    public CandleStick(double o, double c, double h, double l, double v, long t, String name) {
+        this.o = o;
+        this.c = c;
+        this.h = h;
+        this.l = l;
+        this.v = v;
+        this.t = t;
+        this.name = name;
     }
 
     public CandleStick(String name) {
@@ -112,5 +126,26 @@ public class CandleStick {
                 ", lastTradeTime - t=" + t +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static CandleStick getLatestElementFromGetCandleStick(JSONArray arr) {
+
+        if (arr == null) {
+            logger.error("fromGetCandlestick, arr == null");
+            return null;
+        }
+
+        //last element is the latest candle stick
+        JSONObject o = (JSONObject) arr.get(arr.size()-1);
+
+        return new CandleStick(
+                (double) o.get("o"),
+                (double) o.get("c"),
+                (double) o.get("h"),
+                (double) o.get("l"),
+                (double) o.get("v"),
+                (long) o.get("t"),
+                "getCandlestick"
+        );
     }
 }
