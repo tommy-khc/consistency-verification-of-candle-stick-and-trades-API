@@ -103,6 +103,7 @@ public class CryptoAPI extends TimerTask {
             }
 
             //codes below will be executed even it executed cancel()
+            //TODO H is similar
             if (timeDiffOld <= duration) {
                 //Diff <= 6000
                 //determine field o

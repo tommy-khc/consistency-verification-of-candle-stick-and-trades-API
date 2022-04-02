@@ -56,7 +56,7 @@ public class DataExtraction {
         JSONObject latestJ = (JSONObject) latestO;
         Object o = (Object) latestJ.get(fieldName);
 
-        logger.info("getLatestFieldValue from " + methodName +", "+ fieldName + ", return: " + "(DataType = Object): " + o);
+        logger.debug("getLatestFieldValue from " + methodName +", "+ fieldName + ", return: " + "(DataType = Object): " + o);
         return o;
 
     }
@@ -106,7 +106,7 @@ public class DataExtraction {
         JSONObject oldestJ = (JSONObject) oldestO;
         Object o = (Object) oldestJ.get(fieldName);
 
-        logger.info("getOldestFieldValue from " + methodName +", "+ fieldName + ", return: " + "(DataType = Object): " + o);
+        logger.debug("getOldestFieldValue from " + methodName +", "+ fieldName + ", return: " + "(DataType = Object): " + o);
         return o;
     }
 
