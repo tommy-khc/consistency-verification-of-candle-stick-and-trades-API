@@ -54,9 +54,7 @@ public class POSTAPI {
         catch (NullPointerException e) {
             logger.error("getData, " + "NullPointerException, " + "return: " + null);
             return null;
-        } catch (ClassCastException e)
-
-        {
+        } catch (ClassCastException e) {
             logger.error("getData, " + "ClassCastException, " + "return: " + null);
             return null;
         }
