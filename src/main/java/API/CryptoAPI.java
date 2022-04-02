@@ -28,6 +28,8 @@ public class CryptoAPI extends TimerTask {
 
     private CandleStick cS;
 
+    private Boolean finishPolling;
+
     public CryptoAPI(String instrumentName, long intTime, TimeFrame tF, String methodName) {
         this.instrumentName = instrumentName;
         this.intTime = intTime;
@@ -35,6 +37,15 @@ public class CryptoAPI extends TimerTask {
         this.endTime = intTime + tF.getDuration();
         this.methodName = methodName;
         this.cS = new CandleStick(methodName);
+        this.finishPolling = Boolean.FALSE;
+    }
+
+    public CandleStick getcS() {
+        return cS;
+    }
+
+    public Boolean getFinishPolling() {
+        return finishPolling;
     }
 
     public static JSONArray getTrade (String instrumentName) throws IOException, InterruptedException {
@@ -104,12 +115,17 @@ public class CryptoAPI extends TimerTask {
             cS.setL( DataExtraction.getLowFromTrades(arr, intTime, endTime, cS.getL()));
             logger.info("low price is updated to " + cS.getL());
 
-            //TODO fix bugs (due to delay of receiving request in sever ) -- send earlier, then tF.getDuration() + e.g 500
+            cS.setV( DataExtraction.getVolumeFromTrades(arr, intTime, endTime, cS.getV()));
+            logger.info("volume is updated to " + cS.getL());
+
+            //TODO fix bugs (due to delay of receiving request in sever ) -- send earlier, then tF.getDuration() + e.g 500 ?
+            //TODO No really, because responses are delayed
             //timeDiffLast > tF.getDuration() && timeDiffOld > tF.getDuration()
             if (timeDiffOld > duration) {
                 cS.setT(latestTime);
                 logger.info("run(), " + cS.getTradeToString());
                 cancel();
+                finishPolling = Boolean.TRUE;
             }
 
             //codes below will be executed even it executed cancel()
@@ -132,6 +148,7 @@ public class CryptoAPI extends TimerTask {
                     logger.info("close price is updated to " + cS.getC());
                     logger.info("run(), " + cS.getTradeToString());
                     cancel();
+                    finishPolling = Boolean.TRUE;
                 }
 
                 if (timeDiffLast > duration && timeDiffOld < duration) {
@@ -139,6 +156,7 @@ public class CryptoAPI extends TimerTask {
                     cS.setT( (long) DataExtraction.getCloestToEndTimeFieldFromTrade(arr, endTime, "t"));
                     logger.info("run(), " + cS.getTradeToString());
                     cancel();
+                    finishPolling = Boolean.TRUE;
                 }
             }
 

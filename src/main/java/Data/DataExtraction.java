@@ -254,4 +254,30 @@ public class DataExtraction {
         return l;
     }
 
+    public static double getVolumeFromTrades (JSONArray arr, long intTime, long endTime, double v) {
+        if (arr == null) {
+            logger.error("arr == null");
+            return Double.NaN;
+        }
+
+        // intTime is from "2022-04-2 00:54:00.0" , it will be checked in other code
+        //endTime = intTime + duration, it should be ok
+
+        //Initial value of v is Double.MAX_VALUE
+        if (v == Double.NaN) {
+            logger.error("v == Double.NaN"); // properly because of arr == null
+            return v;
+        }
+
+        for (Object o : arr) {
+            JSONObject j = (JSONObject) o;
+            long t = (long) j.get("t");
+            if (intTime <= t && t <= endTime) {
+                v = v + (double) j.get("p");
+            }
+        }
+
+        return v;
+    }
+
 }

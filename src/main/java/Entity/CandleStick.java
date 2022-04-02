@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.Objects;
+
 //public/get-candleStick response
 public class CandleStick {
 
@@ -18,7 +20,7 @@ public class CandleStick {
 
     private double l = Double.MAX_VALUE;
 
-    private double v;
+    private double v = 0;
 
     private long t;
 
@@ -147,5 +149,18 @@ public class CandleStick {
                 (long) o.get("t"),
                 "getCandlestick"
         );
+    }
+
+    @Override
+    public boolean equals(Object o1) {
+        if (this == o1) return true;
+        if (o1 == null || getClass() != o1.getClass()) return false;
+        CandleStick that = (CandleStick) o1;
+        return Double.compare(that.o, o) == 0 && Double.compare(that.c, c) == 0 && Double.compare(that.h, h) == 0 && Double.compare(that.l, l) == 0 && Double.compare(that.v, v) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(o, c, h, l, v);
     }
 }
