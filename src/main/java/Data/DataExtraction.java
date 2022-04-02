@@ -156,7 +156,7 @@ public class DataExtraction {
         }
 
         if (timeDiffLast < duration) {
-            return (double) DataExtraction.getLatestFieldValue("trade", trades, "p");
+            return (double) DataExtraction.getLatestFieldValue("getTrade", trades, "p");
         }
 
 //        if (timeDiffLast == duration), do it run()
@@ -194,10 +194,7 @@ public class DataExtraction {
             long t = (long) j.get("t");
             if (t <= endTime) {
                 return j.get(fieldName);
-            }else { //t > endTime
-                logger.error("getCloestToEndTimeFieldFromTrade, case: t > endTime");
-                return null;
-            }
+            } //else (t > endTime)
         }
 
         logger.error("getCloestToEndTimeFieldFromTrade, used wrongly");

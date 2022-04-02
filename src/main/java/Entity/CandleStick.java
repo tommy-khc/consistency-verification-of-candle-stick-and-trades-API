@@ -24,6 +24,9 @@ public class CandleStick {
         this.t = t;
     }
 
+    public CandleStick() {
+    }
+
     public double getO() {
         return o;
     }

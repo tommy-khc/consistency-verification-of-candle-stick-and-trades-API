@@ -24,7 +24,7 @@ public class CryptoAPI extends TimerTask {
 
     private TimeFrame tF;
 
-    private CandleStick cS;
+    private CandleStick cS = new CandleStick();
 
     public CryptoAPI(String instrumentName, long intTime, TimeFrame tF) {
         this.instrumentName = instrumentName;
@@ -87,8 +87,8 @@ public class CryptoAPI extends TimerTask {
             JSONArray arr = getTrade(instrumentName);
 
             //Time
-            long latestTime = (long) DataExtraction.getLatestFieldValue("trade", arr, "t");
-            long oldestTime = (long) DataExtraction.getOldestFieldValue("trade", arr, "t");
+            long latestTime = (long) DataExtraction.getLatestFieldValue("getTrade", arr, "t");
+            long oldestTime = (long) DataExtraction.getOldestFieldValue("getTrade", arr, "t");
             long timeDiffLast = latestTime - intTime;
             long timeDiffOld = oldestTime - intTime;
             long duration = tF.getDuration();
@@ -102,31 +102,34 @@ public class CryptoAPI extends TimerTask {
                 cancel();
             }
 
+            //codes below will be executed even it executed cancel()
+            if (timeDiffOld <= duration) {
+                //Diff <= 6000
+                //determine field o
+                if (Double.isNaN(cS.getO())) {
+                    cS.setO(DataExtraction.getOpenPriceFromTrades(arr, intTime));
+                    logger.info("open price is updated to " + cS.getO());
+                }
 
-            //Diff <= 6000
-            //determine field o
-            if (Double.isNaN(cS.getO())) {
-                cS.setO(DataExtraction.getOpenPriceFromTrades(arr, intTime));
-                logger.info("open price is updated to " + cS.getO());
-            }
-
-            //determine field c
-            cS.setC( DataExtraction.getClosePriceFromTrades(arr, timeDiffLast, timeDiffOld, duration, endTime, cS.getC()));
-            logger.info("close price is updated to " + cS.getC());
-
-
-            if (timeDiffLast == 60000) {
-                cS.setT(latestTime);
-                cS.setC( (double) DataExtraction.getLatestFieldValue("trade", arr, "p") );
+                //determine field c
+                cS.setC( DataExtraction.getClosePriceFromTrades(arr, timeDiffLast, timeDiffOld, duration, endTime, cS.getC()));
                 logger.info("close price is updated to " + cS.getC());
-                logger.info("run(), " + cS.toString());
-                cancel();
-            }
 
-            if (timeDiffLast > duration && timeDiffOld < duration) {
-                //Aim: cS.setT(latestTime which is closest to )
-                cS.setT( (long) DataExtraction.getCloestToEndTimeFieldFromTrade(arr, endTime, "t"));
-                cancel();
+
+                if (timeDiffLast == tF.getDuration()) {
+                    cS.setT(latestTime);
+                    cS.setC( (double) DataExtraction.getLatestFieldValue("getTrade", arr, "p") );
+                    logger.info("close price is updated to " + cS.getC());
+                    logger.info("run(), " + cS.toString());
+                    cancel();
+                }
+
+                if (timeDiffLast > duration && timeDiffOld < duration) {
+                    //Aim: cS.setT(latestTime which is closest to )
+                    cS.setT( (long) DataExtraction.getCloestToEndTimeFieldFromTrade(arr, endTime, "t"));
+                    logger.info("run(), " + cS.toString());
+                    cancel();
+                }
             }
 
         } catch (IOException e) {
