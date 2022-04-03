@@ -9,8 +9,6 @@ public class DataExtraction {
 
     private static final Logger logger = LogManager.getLogger(DataExtraction.class);
 
-    //TODO Too complex?
-
     // methodName is the method name in CryptoAPI
     public static Object getLatestFieldValue (String methodName, JSONArray arr, String fieldName) {
 
@@ -24,7 +22,7 @@ public class DataExtraction {
             return null;
         }
 
-        //TODO create a method to replace it ?
+        //TODO create a method to replace it ? No, it wastes time
         if (methodName.equals("getTrade")) {
 
             if (!fieldName.equals("d") &&
