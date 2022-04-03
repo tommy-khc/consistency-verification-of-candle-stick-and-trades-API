@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class main {
 
     public static void main(String[] args) throws ParseException, IOException, InterruptedException {
+
         //user input
         Scanner sc = new Scanner(System.in);
         System.out.println("Instrument Code?");
@@ -27,8 +28,6 @@ public class main {
         TimeFrame tF = TimeFrame.getInstance(tFStr);
         Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(dateStr);
 
-
-
         //Test five CandleSticks
         List<String> strL = new ArrayList<>();
         for (int k : new int[5]) {
@@ -37,6 +36,7 @@ public class main {
             CandleStick cS = CandleStick.getLatestElementFromGetCandleStick(CryptoAPI.getCandlestick(i, tF));
 
             String consistence = "**********CandleStick is consistence with getTrade: " + cS.equals(trade);
+            strL.add(consistence);
             System.out.println(consistence);
 
             if (!cS.equals(trade)) {
@@ -44,18 +44,20 @@ public class main {
                 String getTradeToStr = "**********CandleStick of getTrade: " + trade.getTradeToString();
                 String getCandleStickToStr = "*******************getCandleStick: " + cS.toString();
 
+                strL.add(getTradeToStr);
+                strL.add(getCandleStickToStr);
+
                 System.out.println(getTradeToStr);
                 System.out.println(getCandleStickToStr);
 
-                strL.add(getTradeToStr);
-                strL.add(getCandleStickToStr);
             }
 
-            strL.add(consistence);
+            date = new Date(date.getTime() + tF.getDuration());
 
             Thread.sleep(1000);
         }
 
+        System.out.println(i +"  "+ dateStr + "  " + tFStr);
         for (String str : strL) {
             System.out.println(str);
         }
