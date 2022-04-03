@@ -1,7 +1,10 @@
 import API.CryptoAPI;
 import BusinessSerivce.Polling;
+import Data.DataExtraction;
 import Entity.CandleStick;
 import Entity.TimeFrame;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -12,6 +15,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class main {
+
+    private static final Logger logger = LogManager.getLogger(main.class);
 
     public static void main(String[] args) throws ParseException, IOException, InterruptedException {
 
@@ -37,7 +42,7 @@ public class main {
 
             String consistence = "**********CandleStick is consistence with getTrade: " + cS.equals(trade);
             strL.add(consistence);
-            System.out.println(consistence);
+            logger.info(consistence);
 
             if (!cS.equals(trade)) {
 
@@ -47,8 +52,8 @@ public class main {
                 strL.add(getTradeToStr);
                 strL.add(getCandleStickToStr);
 
-                System.out.println(getTradeToStr);
-                System.out.println(getCandleStickToStr);
+                logger.info(getTradeToStr);
+                logger.info(getCandleStickToStr);
 
             }
 
@@ -57,9 +62,9 @@ public class main {
             Thread.sleep(1000);
         }
 
-        System.out.println(i +"  "+ dateStr + "  " + tFStr);
+        logger.info(i +"  "+ dateStr + "  " + tFStr);
         for (String str : strL) {
-            System.out.println(str);
+            logger.info(str);
         }
 
         Thread.interrupted();
