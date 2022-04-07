@@ -16,7 +16,7 @@ public enum TimeFrame {
     ONE_DAY("1D", 86400000L),
     ONE_WEEK("7D", 604800000L),
     TWO_WEEKS("14D", 1210000000L),
-    ONE_MONTH("1M", 2629800000L); //2,628,000,000 is not accurate and it is too large for long
+    ONE_MONTH("1M", 2629800000L);
 
     private final String shortName;
 
