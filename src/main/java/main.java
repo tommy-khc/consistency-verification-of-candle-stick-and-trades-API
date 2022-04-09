@@ -1,8 +1,7 @@
-import API.CryptoAPI;
-import BusinessSerivce.Polling;
-import Data.DataExtraction;
-import Entity.CandleStick;
-import Entity.TimeFrame;
+import api.CryptoAPI;
+import businessserivce.Polling;
+import entity.CandleStick;
+import entity.TimeFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

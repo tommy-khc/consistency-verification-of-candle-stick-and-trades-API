@@ -1,6 +1,6 @@
-import API.CryptoAPI;
-import Entity.CandleStick;
-import Entity.TimeFrame;
+import api.CryptoAPI;
+import entity.CandleStick;
+import entity.TimeFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
