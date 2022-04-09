@@ -13,9 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class main {
+public class Main {
 
-    private static final Logger logger = LogManager.getLogger(main.class);
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws ParseException, IOException, InterruptedException {
 
