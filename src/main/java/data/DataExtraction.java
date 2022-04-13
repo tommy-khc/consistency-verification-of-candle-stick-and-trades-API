@@ -157,15 +157,15 @@ public class DataExtraction {
             return (double) DataExtraction.getLatestFieldValue("getTrade", trades, "p");
         }
 
-//        if (timeDiffLast == duration), do it run()
+        if (timeDiffLast == duration) {
+            return (double) DataExtraction.getLatestFieldValue("getTrade", trades, "p");
+        }
 
         // part of the time interval of JSONArray trades is overlapped with intTime-EndTime interval, part of it is not
         if (timeDiffLast > duration && timeDiffOld < duration) { //get max. time
             return (double) DataExtraction.getCloestToEndTimeFieldFromTrade(trades, endTime, "p");
         }
 
-        //        if (timeDiffLast == duration), do it run()
-        logger.info("getClosePriceFromTrades, case: timeDiffLast == duration");
         return currentClosePrice;
     }
 

@@ -141,8 +141,6 @@ public class CryptoAPI extends TimerTask {
 
                 if (timeDiffLast == tF.getDuration()) {
                     cS.setT(latestTime);
-                    cS.setC( (double) DataExtraction.getLatestFieldValue("getTrade", arr, "p") );
-                    logger.info("close price is updated to " + cS.getC());
                     logger.info("run(), " + cS.getTradeToString());
                     cancel();
                     finishPolling = Boolean.TRUE;
