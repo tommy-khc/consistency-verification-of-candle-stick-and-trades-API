@@ -1,6 +1,8 @@
 #cvcat - ConsistencyVerificationCandleAndTrade
 
-Intro: this application can check 5 continuous candle sticks and verify consistency between get-trade and get-candleStick API. <br/>
+Description: this application can check 5 continuous candle sticks and verify consistency between get-trade and get-candleStick API. 
+Java 11, Junit 5, log42j and maven are adopted in this project. <br/>
+
 The application - cvcat.jar is in application folder <br />
 
 run java application: <br />
