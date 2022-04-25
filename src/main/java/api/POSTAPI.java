@@ -28,9 +28,7 @@ public class POSTAPI {
                 .uri(URI.create(postEndpoint))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        logger.debug(response);
-        return response;
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     public static JSONArray getData (HttpResponse<String> response) {
