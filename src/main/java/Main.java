@@ -21,7 +21,7 @@ public class Main {
 
         //user input
         Scanner sc = new Scanner(System.in);
-        System.out.println("Instrument Code?");
+        System.out.println("Instrument Code? (e.g. BTC_USDT) Go to https://exchange-docs.crypto.com/spot/index.html?java#public-get-instruments to find out more");
         String i = sc.nextLine();
         System.out.println("Start time? (\"yyyy-MM-dd HH:mm:ss.S\") ?");
         String dateStr = sc.nextLine();

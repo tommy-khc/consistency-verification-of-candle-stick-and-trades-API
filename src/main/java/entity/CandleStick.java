@@ -141,12 +141,12 @@ public class CandleStick {
         JSONObject o = (JSONObject) arr.get(arr.size()-1);
 
         return new CandleStick(
-                (double) o.get("o"),
-                (double) o.get("c"),
-                (double) o.get("h"),
-                (double) o.get("l"),
-                (double) o.get("v"),
-                (long) o.get("t"),
+                Double.parseDouble(o.get("o").toString()),
+                Double.parseDouble(o.get("c").toString()),
+                Double.parseDouble(o.get("h").toString()),
+                Double.parseDouble(o.get("l").toString()),
+                Double.parseDouble(o.get("v").toString()),
+                Long.parseLong(o.get("t").toString()),
                 "getCandlestick"
         );
     }

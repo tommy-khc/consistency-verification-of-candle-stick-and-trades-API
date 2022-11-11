@@ -125,7 +125,8 @@ public class DataExtraction {
             JSONObject j = (JSONObject) trades.get(i);
             long t = (long) j.get("t");
             if (t >= intTime) {
-                double o = (double) j.get("p");
+                String price = String.valueOf(j.get("p"));
+                double o = Double.parseDouble(price);
                 logger.info("getOpenPriceFromTrades, return: " + o);
                 return o;
             }
@@ -154,16 +155,19 @@ public class DataExtraction {
         }
 
         if (timeDiffLast < duration) {
-            return (double) DataExtraction.getLatestFieldValue("getTrade", trades, "p");
+            String price = String.valueOf(getLatestFieldValue("getTrade", trades, "p"));
+            return Double.parseDouble(price);
         }
 
         if (timeDiffLast == duration) {
-            return (double) DataExtraction.getLatestFieldValue("getTrade", trades, "p");
+            String price = String.valueOf(getLatestFieldValue("getTrade", trades, "p"));
+            return Double.parseDouble(price);
         }
 
         // part of the time interval of JSONArray trades is overlapped with intTime-EndTime interval, part of it is not
         if (timeDiffLast > duration && timeDiffOld < duration) { //get max. time
-            return (double) DataExtraction.getCloestToEndTimeFieldFromTrade(trades, endTime, "p");
+            String price = String.valueOf(getLatestFieldValue("getTrade", trades, "p"));
+            return Double.parseDouble(price);
         }
 
         return currentClosePrice;
@@ -217,9 +221,10 @@ public class DataExtraction {
 
         for (Object o : arr) {
             JSONObject j = (JSONObject) o;
+            String price = String.valueOf(j.get("p"));
             long t = (long) j.get("t");
             if (intTime <= t && t <= endTime) {
-                h = Double.max(h, (double) j.get("p"));
+                h = Double.max(h, Double.parseDouble(price));
             }
         }
 
@@ -243,9 +248,10 @@ public class DataExtraction {
 
         for (Object o : arr) {
             JSONObject j = (JSONObject) o;
+            String price = String.valueOf(j.get("p"));
             long t = (long) j.get("t");
             if (intTime <= t && t <= endTime) {
-                l = Double.min(l, (double) j.get("p"));
+                l = Double.min(l, Double.parseDouble(price));
             }
         }
 
@@ -269,9 +275,10 @@ public class DataExtraction {
 
         for (Object o : arr) {
             JSONObject j = (JSONObject) o;
+            String price = String.valueOf(j.get("p"));
             long t = (long) j.get("t");
             if (intTime <= t && t <= endTime) {
-                v = v + (double) j.get("p");
+                v = v + Double.parseDouble(price);
             }
         }
 
