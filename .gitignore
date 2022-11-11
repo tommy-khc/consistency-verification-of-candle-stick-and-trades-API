@@ -23,6 +23,7 @@
 hs_err_pid*
 
 /.idea
+/out
 /cvcat.iml
 /target
 /src/main/java/META-INF
