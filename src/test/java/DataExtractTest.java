@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//this is a data extract test
 public class DataExtractTest {
 
     private final static Logger logger = LogManager.getLogger(DataExtractTest.class);
