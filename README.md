@@ -2,9 +2,9 @@
 
 ## Background
 
-In stock price chart, you can see some rectangular objects in green or red colour to represent the distribution of stock price on each day or each month. It is called Candle Stick. It has four components which are open, close, high and low in stock prices.</br>
+In stock price chart, you can see some rectangular objects in green or red colour to represent the distribution of stock price on each day or each month. It is called Candlestick. It has four components which are open, close, high and low in stock prices.</br>
 
-![Candle Stick](https://user-images.githubusercontent.com/66003316/203911743-912b6ed2-c38b-4618-8a7d-a67a59bd3e16.jpg)
+![Candlestick](https://user-images.githubusercontent.com/66003316/203911743-912b6ed2-c38b-4618-8a7d-a67a59bd3e16.jpg)
 </br>
 
 Trades mean trades between people in the stock market. It involves trade price and time etc.
@@ -13,9 +13,9 @@ Trades mean trades between people in the stock market. It involves trade price a
 
 ## Description
 
-Candlesticks can be formed by trading prices and times from Trades API and Candle Stick API. </br>
+Candlesticks can be formed by trading prices and times from Trades API and Candlestick API. </br>
 
-This application can get 5 continuous candle sticks from Candle Sticks API and Trade API. Then it compares them and outputs the result of the consistency of information from the two APIs.
+This application can get 5 continuous candlesticks from Candlesticks API and Trade API. Then it compares them and outputs the result of the consistency of information from the two APIs.
 
 ## Motivation
 
@@ -27,20 +27,20 @@ Building technology applications for the financial market is challenging. This p
 - Starting analyzing data at the specific time user input
 
 ## Build status
-It is not completed. The floating point problem in comparing numbers (i.e. prices and volume) hasn't been solved. Also, the program can check only 5 candle sticks but not all upcoming candle sticks until the user terminates the program. A bug related to multi-threading which causes the program can not to end automatically hasn't been solved.
+It is not completed. The floating point problem in comparing numbers (i.e. prices and volume) hasn't been solved. Also, the program can check only 5 candlesticks but not all upcoming candlesticks until the user terminates the program. A bug related to multi-threading which causes the program can not to end automatically hasn't been solved.
 
 ## Code style
 [Google Java Style](https://google.github.io/styleguide/javaguide.html)
 
 ## Screenshots
 
-Input the type of candle sticks and the time to collect</br>
-![Input the type of candle sticks and the time to collect](https://user-images.githubusercontent.com/66003316/203912467-9e4a742d-08a3-4baa-b97c-e7a66245761a.png)</br>
+Input the type of candlesticks and the time to collect</br>
+![Input the type of candlesticks and the time to collect](https://user-images.githubusercontent.com/66003316/203912467-9e4a742d-08a3-4baa-b97c-e7a66245761a.png)</br>
 
 Showing API response data</br>
 ![data from API response](https://user-images.githubusercontent.com/66003316/203921604-fab89627-86b0-4292-9d0c-84a6f780bc12.png)</br>
 
-Showing the consistency verification of selected candle sticks</br>
+Showing the consistency verification of selected candlesticks</br>
 ![Output](https://user-images.githubusercontent.com/66003316/203921968-033709d8-2185-4608-a7e7-7a61e654f2e8.png)</br>
 
 
