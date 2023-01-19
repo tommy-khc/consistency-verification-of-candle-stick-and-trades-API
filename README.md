@@ -2,7 +2,7 @@
 
 ## Background
 
-In stock price chart, you can see some rectangular objects in green or red colour to represent the distribution of stock price on each day or each month. It is called Candlestick. It has four components which are open, close, high and low in stock prices.</br>
+In the stock price chart, you can see some rectangular objects in green or red colour to represent the distribution of stock price on each day or each month. It is called Candlestick. It has four components which are open, close, high and low in stock prices.</br>
 
 ![Candlestick](https://user-images.githubusercontent.com/66003316/203911743-912b6ed2-c38b-4618-8a7d-a67a59bd3e16.jpg)
 </br>
