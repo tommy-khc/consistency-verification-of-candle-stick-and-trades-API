@@ -19,7 +19,7 @@ This application can get 5 continuous candlesticks from Candlesticks API and Tra
 
 ## Motivation
 
-After I graduated, I wanted to challenge myself by building technology applications for the financial market. This project aims to build up a decent program that can find if there are bugs in two APIs with strong proof from a popular cryptocurrency exchange.
+After I graduated in 2019, I wanted to challenge myself by building technology applications for the financial market. This project aims to build up a decent program that can find if there are bugs in two APIs with strong proof from a popular cryptocurrency exchange.
 
 ## Features
 
